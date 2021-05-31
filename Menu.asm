@@ -6,8 +6,8 @@ DSTATS = $303
 
 SIOV   = $E459
 
-	
- 
+
+
     org $2000
 
 ; Inicio del programa
@@ -16,11 +16,11 @@ start
 
 ; Setea directorio raiz (/) del sdrive
 directorio_raiz		
-	lda #$FE	
-	jsr Set300UniCommandA
-	lda #1
-	sta DSTATS
-	jsr SIOV
+    lda #$FE	
+    jsr Set300UniCommandA
+    lda #1
+    sta DSTATS
+    jsr SIOV
 
     jmp * 
 
@@ -29,14 +29,14 @@ directorio_raiz
 dl
     .by $70,$70,$47
     .wo title
-	.by $10
-	.by $42
+    .by $10
+    .by $42
     .wo files
 :20 .by $02
     .by $10
     .by $02
-	.by $41
-	.wo dl
+    .by $41
+    .wo dl
 
 ; Textos de la pantalla
 title
@@ -44,36 +44,36 @@ title
 files
 :21 .sb "                                        "
 directory
-	.sb "                                        "*
+	.sb "/                                       "*
 
 
 
 ; Comando SIO para el firmware
 Set300UniCommandA
-	pha
-	ldy #15
+    pha
+    ldy #15
 sdx1
-	lda SIO_unico,y
-	sta DDEVIC,y
-	dey
-	bpl sdx1
-	pla
-	sta DCOMND
-	rts
+    lda SIO_unico,y
+    sta DDEVIC,y
+    dey
+    bpl sdx1
+    pla
+    sta DCOMND
+    rts
 
 
 ;Bytes para el SIO
 SIO_unico
-	.byte $71				;Unidad ID
+    .byte $71        ;Unidad ID
 sdrive
-	.byte $01				;Unidad num
-	.byte $00				;Comando
-	.byte $40				;
-	.word siobuffer			;Buffer del SIO
-	.byte $07
-	.byte $00
-	.byte $00,$00
-	.byte $00,$00
-	.byte $00,$00,$00,$00
+    .byte $01        ;Unidad num
+    .byte $00        ;Comando
+    .byte $40        ;
+    .word siobuffer  ;Buffer del SIO
+    .byte $07
+    .byte $00
+    .byte $00,$00
+    .byte $00,$00
+    .byte $00,$00,$00,$00
 
 siobuffer = *
